@@ -43,3 +43,26 @@ function signInWithGoogle() {
       alert("Login failed.");
     });
 }
+<script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      const refLink = `${window.location.origin}?ref=${user.uid}`;
+      const refLinkElement = document.getElementById("referralLink");
+      const refSection = document.getElementById("referral-section");
+
+      refLinkElement.textContent = refLink;
+      refLinkElement.href = refLink;
+      refSection.style.display = "block";
+    }
+  });
+</script>
+<button onclick="copyReferral()">Copy Referral Link</button>
+
+<script>
+  function copyReferral() {
+    const link = document.getElementById("referralLink").textContent;
+    navigator.clipboard.writeText(link).then(() => {
+      alert("Referral link copied!");
+    });
+  }
+</script>
